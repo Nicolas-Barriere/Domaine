@@ -4,15 +4,15 @@ from fastapi.middleware.cors import CORSMiddleware
 import os, random
 from dotenv import load_dotenv
 
-load_dotenv()  # Charge le .env
+load_dotenv(dotenv_path=os.getenv("ENV_FILE", ".env"))
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
 
 app = FastAPI()
 
-# CORS pour Next.js
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # ou ["*"] en dev
+    allow_origins=[FRONTEND_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

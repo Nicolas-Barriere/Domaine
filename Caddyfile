@@ -1,0 +1,5 @@
+url.niico.fr {
+    reverse_proxy /api/* backend:8001
+    reverse_proxy frontend:3001
+    encode gzip
+}

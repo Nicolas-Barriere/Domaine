@@ -1,0 +1,46 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    expose:
+      - 3001
+    env_file:
+      - ./frontend/.env.production
+    networks:
+      - web
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    expose:
+      - 8001
+    env_file:
+      - ./backend/.env.prod
+    networks:
+      - web
+
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: always
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:
