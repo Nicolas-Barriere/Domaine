@@ -3,12 +3,14 @@ import { useState } from "react";
 
 export default function Home() {
   const [url, setUrl] = useState("");
+  const [slug, setSlug] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleNewLink = () => {
     setUrl("");
+    setSlug("");
     setShortUrl("");
     setError("");
   };
@@ -20,6 +22,7 @@ export default function Home() {
     try {
       const form = new FormData();
       form.append("url", url);
+      if (slug) form.append("slug", slug);
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000"}/shorten`, {
         method: "POST",
@@ -27,7 +30,9 @@ export default function Home() {
       });
 
       if (!res.ok) {
-        throw new Error("Erreur lors de la génération du lien");
+        const data = await res.json();
+        setError(data.detail || "Erreur lors de la génération du lien");
+        return;
       }
 
       const data = await res.json();
@@ -69,6 +74,13 @@ export default function Home() {
                 </svg>
               </div>
             </div>
+            <input
+              type="text"
+              placeholder="Slug personnalisé (optionnel)"
+              value={slug}
+              onChange={e => setSlug(e.target.value)}
+              className="w-full px-6 py-4 text-lg rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white/50 transition-all duration-300"
+            />
             <button 
               type="submit" 
               disabled={loading}

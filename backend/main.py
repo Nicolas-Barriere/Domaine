@@ -19,15 +19,21 @@ app.add_middleware(
 )
 
 db = {}
-slugs = ["ta-mere-en-slip", "poney-garou", "burger-spatial", "raton-laveur-ninja"]
+slugs = ["ta-mere-en-slip", "gros-fouuu"]
 
 @app.post("/shorten")
-def shorten(url: str = Form(...)):
-    slug = random.choice(slugs)
-    while slug in db:
-        slug = random.choice(slugs)
-    db[slug] = url
-    return {"short_url": f"{BASE_URL}/r/{slug}"}
+def shorten(url: str = Form(...), slug: str = Form(None)):
+    if slug:
+        if slug in db:
+            raise HTTPException(status_code=400, detail="Ce slug est déjà pris.")
+        db[slug] = url
+        return {"short_url": f"{BASE_URL}/r/{slug}"}
+    else:
+        slug_choice = random.choice(slugs)
+        while slug_choice in db:
+            slug_choice = random.choice(slugs)
+        db[slug_choice] = url
+        return {"short_url": f"{BASE_URL}/r/{slug_choice}"}
 
 @app.get("/r/{slug}")
 def redirect(slug: str):
