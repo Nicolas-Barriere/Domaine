@@ -24,12 +24,12 @@ run-backend-prod:
 # 🐳 Docker en prod
 prod:
 	@echo "📦 Build + lancement de la stack en prod via Docker Compose..."
-	docker compose up --build -d
+	docker-compose up --build -d
 
 # 🔄 Clean
 down:
-	docker compose down
+	docker-compose down
 
 logs:
-	docker compose logs -f
+	docker-compose logs -f
 
