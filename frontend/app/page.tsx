@@ -38,7 +38,7 @@ export default function Home() {
       const data = await res.json();
       setShortUrl(data.short_url);
     } catch (err) {
-      setError("Impossible de raccourcir l'URL. Vérifie que ton backend est bien lancé.");
+      setError("Impossible de créer l'URL. Désolé !");
     } finally {
       setLoading(false);
     }
@@ -49,10 +49,10 @@ export default function Home() {
       <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 w-full max-w-2xl border border-white/20 shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-lg">
-            ⚡ URL Shortener
+            ⚡ Change the URL
           </h1>
           <p className="text-white/80 text-lg">
-            {shortUrl ? "Votre lien a été raccourci avec succès !" : "Raccourcissez vos liens en un clic"}
+            {shortUrl ? "Votre lien a été changé avec succès !" : "Créez un lien amusant en un clic"}
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export default function Home() {
                   Génération...
                 </div>
               ) : (
-                "🚀 Raccourcir l'URL"
+                "🚀 Générer l'URL"
               )}
             </button>
           </form>
@@ -106,7 +106,7 @@ export default function Home() {
                 <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Lien raccourci généré !
+                Lien généré !
               </h3>
               <div className="flex items-center gap-3">
                 <a 
