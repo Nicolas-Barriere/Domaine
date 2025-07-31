@@ -43,4 +43,8 @@ volumes:
   caddy_config:
 
 networks:
+  - web
+
+networks:
   web:
+    external: true
