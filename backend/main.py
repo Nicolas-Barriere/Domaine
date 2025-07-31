@@ -27,9 +27,9 @@ def shorten(url: str = Form(...)):
     while slug in db:
         slug = random.choice(slugs)
     db[slug] = url
-    return {"short_url": f"{BASE_URL}/{slug}"}
+    return {"short_url": f"{BASE_URL}/r/{slug}"}
 
-@app.get("/{slug}")
+@app.get("/r/{slug}")
 def redirect(slug: str):
     if slug in db:
         return RedirectResponse(db[slug])
